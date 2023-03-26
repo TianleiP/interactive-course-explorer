@@ -20,7 +20,10 @@ class Course:
 
     def __init__(self, name: str):
         self.name = name
-        self.prereq = []
+        self.prereq = [] 
+        # The type of self.prereq was set originally. However, adding dictionary into set will result in TypeError: unhashable type: 'dict'
+        # Although this can be solved by converting dictionary into tuple, it requires more computation for types conversion, and it also has 
+        # a conflict with our original usage of tuple.
         self.higher_courses = set()
 
 
