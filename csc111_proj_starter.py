@@ -56,15 +56,77 @@ class CourseGraph:
 
     def add_edge(self, course1: str, prereq: set[tuple / dict]) -> None:
         """add edge between a course and all of its prerequisite"""
+        if course1 not in self.courses:
+            self.add_course(course1)
         curr_course = self.courses[course1]
         curr_course.prereq.add(prereq)
         self._add_edge(course1, prereq)
 
-    def _add_edge(self, course: str, prereq: Any) -> None:
+    def _add_edge(self, course: str, prereq: any) -> None:
         for item in prereq:
             if isinstance(item, dict):
                 for coursename in item:
+                    if coursename not in self.courses:
+                        self.add_course(coursename)
                     curr_course = self.courses[coursename]
                     curr_course.higher_courses.add(course)
             else:
                 self._add_edge(course, item)
+
+    def compute_cost(self, course: str/set/tuple) -> float:
+        """ compute the total opportunity cost needed in order to finish this course.
+        for each course, if it's a year course, it's opportunity cost is 1 + total cost
+        of its prerequisite. If it's a half year course, it's opportunity is 0.5 + total
+        cost of its prerequisite."""
+        if isinstance(course, str):
+            curr_course = self.courses[course]
+            if curr_course.prereq == set():
+                if self.is_year_course(course):
+                    return 1.0
+                else:
+                    return 0.5
+            else:
+                cost = 0
+                for item in curr_course.prereq:
+                    if isinstance(item, dict):
+                        for key in item:
+                            cost += self.compute_cost(key)
+                    else:
+                        cost += self.compute_cost(item)
+                if self.is_year_course(course):
+                    cost += 1.0
+                else:
+                    cost += 0.5
+                return cost
+        elif isinstance(course, set):
+            if course == set():
+                return 0.0
+            else:
+                cost = 0.0
+                for item in course:
+                    cost += self.compute_cost(item)
+                return cost
+        else:
+            if course == ():
+                return 0
+            else:
+                lst = []
+                for item in course:
+                    lst.append(self.compute_cost(item))
+                return min(lst)
+
+
+    def is_year_course(self, course: str) -> bool:
+        """return whether a course is a year course or a half year course"""
+        if course[6] == 'Y':
+            return True
+        else:
+            return False
+
+
+def create_graph(course: str, prereq: set) -> CourseGraph:
+    """return a coursegraph for testing purpose"""
+    g = CourseGraph()
+    g.add_course(course)
+    g.add_edge(course, prereq)
+    return g
