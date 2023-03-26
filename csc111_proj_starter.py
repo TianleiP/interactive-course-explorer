@@ -125,7 +125,7 @@ class CourseGraph:
 
 
 def create_graph(course: str, prereq: set) -> CourseGraph:
-    """return a coursegraph for testing purpose"""
+    """return a very simple coursegraph for testing purpose"""
     g = CourseGraph()
     g.add_course(course)
     g.add_edge(course, prereq)
