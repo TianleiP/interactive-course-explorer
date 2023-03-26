@@ -1,5 +1,4 @@
 
-
 import csv
 from typing import Any, Optional
 
@@ -67,47 +66,72 @@ class CourseGraph:
             else:
                 self._add_edge(course, item)
 
-    def compute_cost(self, course: Any) -> float:
+    def compute_cost(self, course: Any) -> tuple[float, list[str]]:
         """ compute the total opportunity cost needed in order to finish this course.
         for each course, if it's a year course, it's opportunity cost is 1 + total cost
         of its prerequisite. If it's a half year course, it's opportunity is 0.5 + total
-        cost of its prerequisite."""
+        cost of its prerequisite.
+        >>> g = CourseGraph()
+        >>> g.add_course('Mat137H1')
+        >>> g.add_edge('Mat137H1', [({'MAT223H2': 70}, {'MAT157Y1':50}), {'CSC111H1':75}])
+        >>> g.compute_cost('Mat137H1')
+        (1.5, ['Mat137H1', 'MAT223H2', 'CSC111H1'])
+        >>> g = CourseGraph()
+        >>> g.add_course('Mat137H1')
+        >>> g.add_edge('Mat137H1', [({'MAT223H2': 70}, {'MAT157Y1':50}), {'CSC111H1':75}])
+        >>> g.add_edge('MAT223H2', [({'MAT256H2': 70}, {'MAT177Y1':50}), {'CSC131H1':75}])
+        >>> g.add_edge('MAT157Y1', [({'MAT286H2': 70}, {'MAT179Y1':50}), {'CSC141H1':75}])
+        >>> g.compute_cost('Mat137H1')
+        (2.5, ['Mat137H1', 'MAT223H2', 'MAT256H2', 'CSC131H1', 'CSC111H1'])
+        """
         if isinstance(course, str):
             curr_course = self.courses[course]
             if not curr_course.prereq:
                 if self.is_year_course(course):
-                    return 1.0
+                    return (1.0, [course])
                 else:
-                    return 0.5
+                    return (0.5, [course])
             else:
                 cost = 0
+                lst = [course]
                 for item in curr_course.prereq:
                     if isinstance(item, dict):
                         for key in item:
-                            cost += self.compute_cost(key)
+                            cost += self.compute_cost(key)[0]
+                            lst.extend(self.compute_cost(key)[1])
                     else:
-                        cost += self.compute_cost(item)
+                        cost += self.compute_cost(item)[0]
+                        lst.extend(self.compute_cost(item)[1])
                 if self.is_year_course(course):
                     cost += 1.0
                 else:
                     cost += 0.5
-                return cost
+                if len(lst) != len(set(lst)):
+                    lst = list(set(lst))
+                return (cost, lst)
         elif isinstance(course, list):
-            if course == set():
-                return 0.0
+            if course == []:
+                return (0.0, [])
             else:
                 cost = 0.0
+                courselst = []
                 for item in course:
-                    cost += self.compute_cost(item)
-                return cost
+                    cost += self.compute_cost(item)[0]
+                    courselst.extend(self.compute_cost(item)[1])
+                return (cost ,courselst)
         else:
             if course == ():
-                return 0
+                return (0, [])
             else:
-                lst = []
-                for item in course:
-                    lst.append(self.compute_cost(item))
-                return min(lst)
+                course_code = [key for key in course]
+                min_cost = self.compute_cost(course_code)[0]
+                for c in course:
+                    if self.compute_cost(c)[0] < min_cost:
+                        min_cost = self.compute_cost(c)[0]
+                        course_code = [key for key in c][0]
+                lst2 = []
+                lst2.extend(self.compute_cost(course_code)[1])
+                return (min_cost, lst2)
 
 
     def is_year_course(self, course: str) -> bool:
