@@ -15,7 +15,7 @@ class Course:
     self.prereq will be like {({'MAT157':50}, {'MAT223':50})}, which minimum grade requirement is set to 50 by default.
     """
     name: str
-    prereq: set[tuple / dict]
+    prereq: set
     higher_courses: set
 
     def __init__(self, name: str):
@@ -24,16 +24,6 @@ class Course:
         self.higher_courses = set()
 
 
-def read_csv(filename: str) -> Coursegraph:
-    """return a Coursegraph based on a csv file"""
-    curr_graph = CourseGraph()
-    with open(filename) as file:
-        reader = csv.reader(file)
-        for line in reader:
-            curr_graph.add_course(line[0])
-            prereq = compute_prereq(line[1])
-            curr_graph.add_edge(line[0], prereq)
-    return curr_graph
 
 
 def compute_prereq(information: str) -> set:
@@ -54,7 +44,7 @@ class CourseGraph:
         """add courses to the graph"""
         self.courses[name] = Course(name)
 
-    def add_edge(self, course1: str, prereq: set[tuple / dict]) -> None:
+    def add_edge(self, course1: str, prereq: Any) -> None:
         """add edge between a course and all of its prerequisite"""
         if course1 not in self.courses:
             self.add_course(course1)
@@ -62,7 +52,7 @@ class CourseGraph:
         curr_course.prereq.add(prereq)
         self._add_edge(course1, prereq)
 
-    def _add_edge(self, course: str, prereq: any) -> None:
+    def _add_edge(self, course: str, prereq: Any) -> None:
         for item in prereq:
             if isinstance(item, dict):
                 for coursename in item:
@@ -73,7 +63,7 @@ class CourseGraph:
             else:
                 self._add_edge(course, item)
 
-    def compute_cost(self, course: str/set/tuple) -> float:
+    def compute_cost(self, course: Any) -> float:
         """ compute the total opportunity cost needed in order to finish this course.
         for each course, if it's a year course, it's opportunity cost is 1 + total cost
         of its prerequisite. If it's a half year course, it's opportunity is 0.5 + total
@@ -124,9 +114,22 @@ class CourseGraph:
             return False
 
 
+
 def create_graph(course: str, prereq: set) -> CourseGraph:
-    """return a very simple coursegraph for testing purpose"""
+    """return a coursegraph for testing purpose"""
     g = CourseGraph()
     g.add_course(course)
     g.add_edge(course, prereq)
     return g
+
+
+def read_csv(filename: str) -> CourseGraph:
+    """return a Coursegraph based on a csv file"""
+    curr_graph = CourseGraph()
+    with open(filename) as file:
+        reader = csv.reader(file)
+        for line in reader:
+            curr_graph.add_course(line[0])
+            prereq = compute_prereq(line[1])
+            curr_graph.add_edge(line[0], prereq)
+    return curr_graph
