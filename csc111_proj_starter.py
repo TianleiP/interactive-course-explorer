@@ -74,6 +74,7 @@ class CourseGraph:
         for each course, if it's a year course, it's opportunity cost is 1 + total cost
         of its prerequisite. If it's a half year course, it's opportunity is 0.5 + total
         cost of its prerequisite.
+        # the following are mosly fake courses, only for testing purpose
         >>> g = CourseGraph()
         >>> g.add_course('Mat137H1')
         >>> g.add_edge('Mat137H1', [({'MAT223H2': 70}, {'MAT157Y1':50}), {'CSC111H1':75}])
