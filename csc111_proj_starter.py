@@ -60,7 +60,7 @@ class CourseGraph:
         curr_course.prereq.add(prereq)
         self._add_edge(course1, prereq)
 
-    def _add_edge(self, course: str, prereq: any) -> None:
+    def _add_edge(self, course: str, prereq: Any) -> None:
         for item in prereq:
             if isinstance(item, dict):
                 for coursename in item:
