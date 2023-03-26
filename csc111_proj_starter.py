@@ -1,6 +1,7 @@
+
+
 import csv
 from typing import Any, Optional
-
 
 class Course:
     """
@@ -9,26 +10,28 @@ class Course:
     higher_courses: the courses that include this course as prerequisite.
 
     For example, if the prereq of course 'whateverthatis' is '(grade >= 70 for course MAT137 or pass for MAT157),
-    and grade >= 75 for CSC111', then self.prereq will looks like:{({'MAT137': 70}, {'MAT157':50}), {'CSC111':75}}. In
+    and grade >= 75 for CSC111', then self.prereq will looks like:[({'MAT137': 70}, {'MAT157':50}), {'CSC111':75}]. In
     this case, the prerequisite is satisfied if and only if any if the requirement for (MAT137 and MAT157) is
     satisfied, and the score for CSC111 is not lower than 75. If the prereq of the course is MAT137 or MAT157, then
-    self.prereq will be like {({'MAT157':50}, {'MAT223':50})}, which minimum grade requirement is set to 50 by default.
+    self.prereq will be like [({'MAT157':50}, {'MAT223':50})], which minimum grade requirement is set to 50 by default.
     """
     name: str
-    prereq: set
+    prereq: list
     higher_courses: set
 
     def __init__(self, name: str):
         self.name = name
-        self.prereq = set()
+        self.prereq = []
         self.higher_courses = set()
 
 
 
 
-def compute_prereq(information: str) -> set:
+def compute_prereq(information: str) -> list:
     """compute a set of prerequisite based on information contained in a line in the csv file"""
     # implement this based on the actual format of the csv file, may use additional helper function.
+
+
 
 
 class CourseGraph:
@@ -44,12 +47,13 @@ class CourseGraph:
         """add courses to the graph"""
         self.courses[name] = Course(name)
 
-    def add_edge(self, course1: str, prereq: Any) -> None:
+    def add_edge(self, course1: str, prereq: list) -> None:
         """add edge between a course and all of its prerequisite"""
         if course1 not in self.courses:
             self.add_course(course1)
         curr_course = self.courses[course1]
-        curr_course.prereq.add(prereq)
+        for item in prereq:
+            curr_course.prereq.append(item)
         self._add_edge(course1, prereq)
 
     def _add_edge(self, course: str, prereq: Any) -> None:
@@ -70,7 +74,7 @@ class CourseGraph:
         cost of its prerequisite."""
         if isinstance(course, str):
             curr_course = self.courses[course]
-            if curr_course.prereq == set():
+            if not curr_course.prereq:
                 if self.is_year_course(course):
                     return 1.0
                 else:
@@ -88,7 +92,7 @@ class CourseGraph:
                 else:
                     cost += 0.5
                 return cost
-        elif isinstance(course, set):
+        elif isinstance(course, list):
             if course == set():
                 return 0.0
             else:
@@ -115,7 +119,7 @@ class CourseGraph:
 
 
 
-def create_graph(course: str, prereq: set) -> CourseGraph:
+def create_graph(course: str, prereq: list) -> CourseGraph:
     """return a coursegraph for testing purpose"""
     g = CourseGraph()
     g.add_course(course)
