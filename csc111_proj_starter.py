@@ -175,6 +175,8 @@ def read_csv(filename: str) -> CourseGraph:
 def compute_prereq(prereq_str):
     """
     Compute the prerequisites of a course given a string representation.
+    >>> compute_prereq2("(60% or higher in CSC148H1, 60% or higher in CSC165H1) / (60% or higher in CSC111H1)")
+    [({'CSC148H1': 60}, {'CSC165H1': 60}), {'CSC111H1': 60}]
     """
     prereqs = []
     prereq_options = prereq_str.split(' / ')
