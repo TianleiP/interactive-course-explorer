@@ -152,11 +152,13 @@ class CourseGraph:
 
 
 
-def create_graph(course: str, prereq: list) -> CourseGraph:
+def create_graph() -> CourseGraph:
     """return a coursegraph for testing purpose"""
     g = CourseGraph()
-    g.add_course(course)
-    g.add_edge(course, prereq)
+    g.add_course('Mat137H1')
+    g.add_edge('Mat137H1', [({'MAT223H2': 70}, {'MAT157Y1': 50}), {'CSC111H1': 75}])
+    g.add_edge('MAT223H2', [({'MAT256H2': 70}, {'MAT177Y1': 50}), {'CSC131H1': 75}])
+    g.add_edge('CSC111H1', [({'MAT286H2': 70}, {'MAT179Y1': 50}), {'CSC141H1': 75}])
     return g
 
 
