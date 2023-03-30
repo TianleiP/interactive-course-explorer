@@ -8,30 +8,23 @@ class Course:
     prereq: courses required in order to take this course.
     higher_courses: the courses that include this course as prerequisite.
 
-    For example, if the prereq of course 'whateverthatis' is '(grade >= 70 for course MAT137 or pass for MAT157),
-    and grade >= 75 for CSC111', then self.prereq will looks like:[({'MAT137': 70}, {'MAT157':50}), {'CSC111':75}]. In
-    this case, the prerequisite is satisfied if and only if any if the requirement for (MAT137 and MAT157) is
-    satisfied, and the score for CSC111 is not lower than 75. If the prereq of the course is MAT137 or MAT157, then
-    self.prereq will be like [({'MAT157':50}, {'MAT223':50})], which minimum grade requirement is set to 50 by default.
+    For example, if the prereq of course 'whateverthatis' is '(grade >= 70 for course MAT137 and pass for MAT223),
+    or grade >= 60 for MAT157', then self.prereq will looks like:[({'MAT137': 70}, {'MAT223':50}), {'MAT157':75}]. In
+    this case, the prerequisite is satisfied if and only if any if the requirement for (MAT137 and MAT223) is
+    satisfied, or the score for MAT157 is not lower than 60. If the prereq of the course is MAT137 or MAT157, then
+    self.prereq will be like [{'MAT157':50}, {'MAT223':50}], which minimum grade requirement is set to 50 by default.
     """
     name: str
     prereq: list
+    # The type of self.prereq was set originally. However, adding dictionary into set will result in TypeError: unhashable type: 'dict'
+    # Although this can be solved by converting dictionary into tuple, it requires more computation for types conversion, and it also has
+    # a conflict with our original usage of tuple.
     higher_courses: set
 
     def __init__(self, name: str):
         self.name = name
-        self.prereq = [] 
-        # The type of self.prereq was set originally. However, adding dictionary into set will result in TypeError: unhashable type: 'dict'
-        # Although this can be solved by converting dictionary into tuple, it requires more computation for types conversion, and it also has 
-        # a conflict with our original usage of tuple.
+        self.prereq = []
         self.higher_courses = set()
-
-
-
-
-def compute_prereq(information: str) -> list:
-    """compute a set of prerequisite based on information contained in a line in the csv file"""
-    # implement this based on the actual format of the csv file, may use additional helper function.
 
 
 
@@ -69,73 +62,85 @@ class CourseGraph:
             else:
                 self._add_edge(course, item)
 
-    def compute_cost(self, course: Any) -> tuple[float, list[str]]:
+    def compute_cost(self, course: str) -> tuple[float, list[str]]:
         """ compute the total opportunity cost needed in order to finish this course.
         for each course, if it's a year course, it's opportunity cost is 1 + total cost
         of its prerequisite. If it's a half year course, it's opportunity is 0.5 + total
         cost of its prerequisite.
-        # the following are mosly fake courses, only for testing purpose
+        # the following are mostly fake courses, only for testing purpose
         >>> g = CourseGraph()
         >>> g.add_course('Mat137H1')
         >>> g.add_edge('Mat137H1', [({'MAT223H2': 70}, {'MAT157Y1':50}), {'CSC111H1':75}])
         >>> g.compute_cost('Mat137H1')
-        (1.5, ['Mat137H1', 'MAT223H2', 'CSC111H1'])
+        (1.0, ['CSC111H1'])
         >>> g = CourseGraph()
         >>> g.add_course('Mat137H1')
         >>> g.add_edge('Mat137H1', [({'MAT223H2': 70}, {'MAT157Y1':50}), {'CSC111H1':75}])
         >>> g.add_edge('MAT223H2', [({'MAT256H2': 70}, {'MAT177Y1':50}), {'CSC131H1':75}])
-        >>> g.add_edge('MAT157Y1', [({'MAT286H2': 70}, {'MAT179Y1':50}), {'CSC141H1':75}])
+        >>> g.add_edge('CSC111H1', [({'MAT286H2': 70}, {'MAT179Y1':50}), {'CSC141H1':75}])
         >>> g.compute_cost('Mat137H1')
-        (2.5, ['Mat137H1', 'MAT223H2', 'MAT256H2', 'CSC131H1', 'CSC111H1'])
+        (1.5, ['CSC111H1', 'CSC141H1'])
         """
-        if isinstance(course, str):
-            curr_course = self.courses[course]
-            if not curr_course.prereq:
-                if self.is_year_course(course):
-                    return (1.0, [course])
-                else:
-                    return (0.5, [course])
-            else:
-                cost = 0
-                lst = [course]
-                for item in curr_course.prereq:
-                    if isinstance(item, dict):
-                        for key in item:
-                            cost += self.compute_cost(key)[0]
-                            lst.extend(self.compute_cost(key)[1])
-                    else:
-                        cost += self.compute_cost(item)[0]
-                        lst.extend(self.compute_cost(item)[1])
-                if self.is_year_course(course):
-                    cost += 1.0
-                else:
-                    cost += 0.5
-                if len(lst) != len(set(lst)):
-                    lst = list(set(lst))
-                return (cost, lst)
-        elif isinstance(course, list):
-            if course == []:
-                return (0.0, [])
-            else:
-                cost = 0.0
-                courselst = []
-                for item in course:
-                    cost += self.compute_cost(item)[0]
-                    courselst.extend(self.compute_cost(item)[1])
-                return (cost ,courselst)
+        cost = 0
+        if self.is_year_course(course):
+            cost += 1
         else:
-            if course == ():
-                return (0, [])
-            else:
-                course_code = [key for key in course]
-                min_cost = self.compute_cost(course_code)[0]
-                for c in course:
-                    if self.compute_cost(c)[0] < min_cost:
-                        min_cost = self.compute_cost(c)[0]
-                        course_code = [key for key in c][0]
-                lst2 = []
-                lst2.extend(self.compute_cost(course_code)[1])
-                return (min_cost, lst2)
+            cost += 0.5
+        curr_course = self.courses[course]
+        if curr_course.prereq == []:
+            return(cost, [])
+        else:
+            min_courses = self.compute_list(curr_course.prereq)
+            cost += min_courses[0]
+            return(cost, min_courses[1])
+
+
+    def compute_list(self, prereq:list) -> tuple[float, list[str]]:
+
+        if prereq == []:
+            return (0.0, [])
+        else:
+            compare_list = []
+            for p in prereq:
+                cost = 0
+                lst = []
+                if isinstance(p, tuple):
+                    new = self.compute_tuple(p)
+                    lst.extend(new[1])
+                    cost += new[0]
+                else:
+                    lst.append([key for key in p][0])
+                    new_value = self.compute_cost([key for key in p][0])
+                    lst.extend(new_value[1])
+                    cost +=new_value[0]
+                compare_list.append((cost, lst))
+            mincost = compare_list[0][0]
+            minlst = compare_list[0][1]
+            for item in compare_list:
+                if item[0] < mincost:
+                    mincost = item[0]
+                    minlst = item[1]
+            return (mincost, minlst)
+
+
+    def compute_tuple(self, prereq:tuple) -> tuple[float, list[str]]:
+
+        if prereq == ():
+            return (0.0, [])
+        else:
+            cost = 0
+            lst = []
+            for p in prereq:
+                if isinstance(p, list):
+                    new = self.compute_list(p)
+                    lst.extend(new[1])
+                    cost += new[0]
+                else:
+                    new = self.compute_cost([key for key in p][0])
+                    lst.extend(new[1])
+                    cost += new[0]
+            return (cost, lst)
+
 
 
     def is_year_course(self, course: str) -> bool:
@@ -165,3 +170,32 @@ def read_csv(filename: str) -> CourseGraph:
             prereq = compute_prereq(line[1])
             curr_graph.add_edge(line[0], prereq)
     return curr_graph
+
+
+def compute_prereq(prereq_str):
+    """
+    Compute the prerequisites of a course given a string representation.
+    """
+    prereqs = []
+    prereq_options = prereq_str.split(' / ')
+    for option in prereq_options:
+        course_reqs = []
+        for req in option.split(','):
+            if '(' in req:
+                req = req.replace("(", "")
+            if ')' in req:
+                req = req.replace(")", "")
+            req = req.strip()
+            if '%' in req:
+                parts = req.split(' or higher in ')
+                course_code = parts[-1]
+                required_grade = int(parts[0].replace('%', ''))
+                course_reqs.append({course_code: required_grade})
+            else:
+                course_reqs.append({req: 50})
+        if len(course_reqs) > 1:
+            course_reqs = tuple(course_reqs)
+        else:
+            course_reqs = course_reqs.pop()
+        prereqs.append(course_reqs)
+    return prereqs
