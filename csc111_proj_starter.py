@@ -1,6 +1,6 @@
-
 import csv
 from typing import Any, Optional
+
 
 class Course:
     """
@@ -16,17 +16,15 @@ class Course:
     """
     name: str
     prereq: list
-    # The type of self.prereq was set originally. However, adding dictionary into set will result in TypeError: unhashable type: 'dict'
-    # Although this can be solved by converting dictionary into tuple, it requires more computation for types conversion, and it also has
-    # a conflict with our original usage of tuple.
+    # The type of self.prereq was set originally. However, adding dictionary into set will result in TypeError:
+    # unhashable type: 'dict' Although this can be solved by converting dictionary into tuple, it requires more
+    # computation for types conversion, and it also has a conflict with our original usage of tuple.
     higher_courses: set
 
     def __init__(self, name: str):
         self.name = name
         self.prereq = []
         self.higher_courses = set()
-
-
 
 
 class CourseGraph:
@@ -88,14 +86,13 @@ class CourseGraph:
             cost += 0.5
         curr_course = self.courses[course]
         if curr_course.prereq == []:
-            return(cost, [])
+            return (cost, [])
         else:
             min_courses = self.compute_list(curr_course.prereq)
             cost += min_courses[0]
-            return(cost, min_courses[1])
+            return (cost, min_courses[1])
 
-
-    def compute_list(self, prereq:list) -> tuple[float, list[str]]:
+    def compute_list(self, prereq: list) -> tuple[float, list[str]]:
 
         if prereq == []:
             return (0.0, [])
@@ -112,7 +109,7 @@ class CourseGraph:
                     lst.append([key for key in p][0])
                     new_value = self.compute_cost([key for key in p][0])
                     lst.extend(new_value[1])
-                    cost +=new_value[0]
+                    cost += new_value[0]
                 compare_list.append((cost, lst))
             mincost = compare_list[0][0]
             minlst = compare_list[0][1]
@@ -122,8 +119,7 @@ class CourseGraph:
                     minlst = item[1]
             return (mincost, minlst)
 
-
-    def compute_tuple(self, prereq:tuple) -> tuple[float, list[str]]:
+    def compute_tuple(self, prereq: tuple) -> tuple[float, list[str]]:
 
         if prereq == ():
             return (0.0, [])
@@ -141,15 +137,12 @@ class CourseGraph:
                     cost += new[0]
             return (cost, lst)
 
-
-
     def is_year_course(self, course: str) -> bool:
         """return whether a course is a year course or a half year course"""
         if course[6] == 'Y':
             return True
         else:
             return False
-
 
 
 def create_graph() -> CourseGraph:
@@ -177,8 +170,12 @@ def read_csv(filename: str) -> CourseGraph:
 def compute_prereq(prereq_str):
     """
     Compute the prerequisites of a course given a string representation.
+
     >>> compute_prereq("(60% or higher in CSC148H1, 60% or higher in CSC165H1) / (60% or higher in CSC111H1)")
     [({'CSC148H1': 60}, {'CSC165H1': 60}), {'CSC111H1': 60}]
+    >>> compute_prereq('(60% or higher in CSC148H1, 60% or higher in (CSC165H1/CSC240H1) / 60% or higher in CSC111H1')
+    [({'CSC148H1': 60}, [{'CSC240H1': 60}, {'CSC165H1': 60}]), {'CSC111H1': 60}]
+
     preconditions:
     - prerequisite should be in the right format that contains only the exact courses and the minimum grade requirement
     of the courses(if any).
@@ -193,13 +190,31 @@ def compute_prereq(prereq_str):
             if ')' in req:
                 req = req.replace(")", "")
             req = req.strip()
-            if '%' in req:
-                parts = req.split(' or higher in ')
-                course_code = parts[-1]
-                required_grade = int(parts[0].replace('%', ''))
-                course_reqs.append({course_code: required_grade})
+            if '/' not in req:
+                if '%' in req:
+                    parts = req.split(' or higher in ')
+                    course_code = parts[-1]
+                    required_grade = int(parts[0].replace('%', ''))
+                    course_reqs.append({course_code: required_grade})
+                else:
+                    course_reqs.append({req: 50})
             else:
-                course_reqs.append({req: 50})
+                if '%' in req:
+                    req_option = req.split('/')
+                    lst_option = []
+                    parts = req_option[0].split(' or higher in ')
+                    required_grade = int(parts[0].replace('%', ''))
+                    req_option.pop(0)
+                    req_option.append(parts[-1])
+                    for r in req_option:
+                        lst_option.append({r: required_grade})
+                    course_reqs.append(lst_option)
+                else:
+                    req_option = req.split('/')
+                    lst_option = []
+                    for r in req_option:
+                        lst_option.append({r:50})
+                    course_reqs.append(lst_option)
         if len(course_reqs) > 1:
             course_reqs = tuple(course_reqs)
         else:
