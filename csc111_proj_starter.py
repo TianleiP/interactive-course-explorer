@@ -172,6 +172,20 @@ def read_csv(filename: str) -> CourseGraph:
     return curr_graph
 
 
+def read_csv_with_graph(filename: str, curr_graph: CourseGraph) -> CourseGraph:
+    """Added courses and prerequisites into a graph that already exists, using the given file."""
+    with open(filename) as file:
+        reader = csv.reader(file)
+        for line in reader:
+            curr_graph.add_course(str(line[0])[1:9])
+            print(f'add course {str(line[0])[1:9]}')
+            if line[1] is not None:
+                prereq = compute_prereq(str(line[1]))
+                print(f'get prerequisite {compute_prereq(str(line[1]))}')
+            curr_graph.add_edge(str(line[0])[1:9], prereq)
+    return curr_graph
+
+
 
 def compute_prereq(prereq_str:str):
     """
