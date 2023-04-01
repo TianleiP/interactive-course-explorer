@@ -167,6 +167,7 @@ def read_csv(filename: str) -> CourseGraph:
             print(f'add course {str(line[0])[1:9]}')
             if line[1] is not None:
                 prereq = compute_prereq(str(line[1]))
+                print(str(line[1]))
                 print(f'get prerequisite {compute_prereq(str(line[1]))}')
             curr_graph.add_edge(str(line[0])[1:9], prereq)
     return curr_graph
@@ -223,26 +224,19 @@ def compute_prereq(prereq_str:str):
                 else:
                     course_reqs.append({req: 50})
             else:
-                if '%' in req:
-                    req_option = req.split('/')
-                    lst_option = []
-                    parts = req_option[0].split(' or higher in ')
-                    required_grade = int(parts[0].replace('%', ''))
-                    req_option.pop(0)
-                    req_option.append(parts[-1])
-                    for r in req_option:
-                        lst_option.append({r: required_grade})
-                    course_reqs.append(lst_option)
-                else:
-                    req_option = req.split('/')
-                    lst_option = []
-                    for r in req_option:
-                        lst_option.append({r:50})
-                    course_reqs.append(lst_option)
+                req_option = req.split('/')
+                lst_option = []
+                parts = req_option[0].split(' or higher in ')
+                required_grade = int(parts[0].replace('%', ''))
+                req_option.pop(0)
+                req_option.append(parts[-1])
+                for r in req_option:
+                    lst_option.append({r: required_grade})
+                course_reqs.append(tuple(lst_option))
         if len(course_reqs) > 1:
             course_reqs = tuple(course_reqs)
         else:
-            while not isinstance(course_reqs, dict):
+            while not (isinstance(course_reqs, dict) or isinstance(course_reqs, tuple)):
                 course_reqs = course_reqs.pop()
         prereqs.append(course_reqs)
     return prereqs
