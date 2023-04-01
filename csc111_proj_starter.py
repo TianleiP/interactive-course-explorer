@@ -236,21 +236,12 @@ def compute_prereq(prereq_str:str):
 
 
 def extract_columns(csv_file_path, new_csv_file_path):
-    # Open the CSV file
     with open(csv_file_path, 'r', encoding='utf-8') as csv_file:
-        # Create a CSV reader object
         csv_reader = csv.reader(csv_file)
-        # Create a list to store the extracted data
         extracted_data = []
-        # Iterate over the rows in the CSV file
         for row in csv_reader:
-            # Extract the first two columns
             extracted_row = row[:2]
-            # Add the extracted row to the list
             extracted_data.append(extracted_row)
-    # Write the extracted data to a new CSV file
     with open(new_csv_file_path, 'w', newline='', encoding='utf-8') as new_csv_file:
-        # Create a CSV writer object
         csv_writer = csv.writer(new_csv_file)
-        # Write the extracted data to the new CSV file
         csv_writer.writerows(extracted_data)
