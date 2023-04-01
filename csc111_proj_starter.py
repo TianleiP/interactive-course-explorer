@@ -175,6 +175,9 @@ def compute_prereq(prereq_str):
     [({'CSC148H1': 60}, {'CSC165H1': 60}), {'CSC111H1': 60}]
     >>> compute_prereq('(60% or higher in CSC148H1, 60% or higher in (CSC165H1/CSC240H1) / 60% or higher in CSC111H1')
     [({'CSC148H1': 60}, [{'CSC240H1': 60}, {'CSC165H1': 60}]), {'CSC111H1': 60}]
+    >>> compute_prereq('CSC436H1 / 75% or higher in CSC336H1,CSC209H1')
+    [{'CSC436H1': 50}, ({'CSC336H1': 75}, {'CSC209H1': 50})]
+
 
     preconditions:
     - prerequisite should be in the right format that contains only the exact courses and the minimum grade requirement
