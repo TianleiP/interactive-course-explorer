@@ -274,6 +274,6 @@ def interactive_graph(graph: CourseGraph):
             courses = graph.compute_cost(item)[1]
             cost = graph.compute_cost(item)[0]
             print(f'{item} may be a course you are interested in, which is about {graph.courses[item].key_words}. '
-                  f'In order to take this course, you can take the following courses as prerequisite to minimize '
-                  f'cost: {courses}([] represent that you do not need any prerequisite for this course), which '
-                  f'include a total of {cost} credit, (including {item})')
+                  f'In order to take this course, \n you can take the following courses as prerequisite to minimize '
+                  f'cost: {courses}([] represent that \n you do not need any prerequisite for this course), which '
+                  f'include a total of {cost} credit, (including {item})\n')
