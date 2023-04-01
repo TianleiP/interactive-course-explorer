@@ -106,6 +106,7 @@ class CourseGraph:
                     lst.extend(new[1])
                     cost += new[0]
                 else:
+                    print(p)
                     lst.append([key for key in p][0])
                     new_value = self.compute_cost([key for key in p][0])
                     lst.extend(new_value[1])
@@ -139,6 +140,7 @@ class CourseGraph:
 
     def is_year_course(self, course: str) -> bool:
         """return whether a course is a year course or a half year course"""
+        print(course)
         if course[6] == 'Y':
             return True
         else:
@@ -161,30 +163,35 @@ def read_csv(filename: str) -> CourseGraph:
     with open(filename) as file:
         reader = csv.reader(file)
         for line in reader:
-            curr_graph.add_course(line[0])
-            prereq = compute_prereq(line[1])
-            curr_graph.add_edge(line[0], prereq)
+            curr_graph.add_course(str(line[0])[1:9])
+            print(f'add course {str(line[0])[1:9]}')
+            if line[1] is not None:
+                prereq = compute_prereq(str(line[1]))
+                print(f'get prerequisite {compute_prereq(str(line[1]))}')
+            curr_graph.add_edge(str(line[0])[1:9], prereq)
     return curr_graph
 
 
-def compute_prereq(prereq_str):
+
+def compute_prereq(prereq_str:str):
     """
     Compute the prerequisites of a course given a string representation.
 
-    >>> compute_prereq("(60% or higher in CSC148H1, 60% or higher in CSC165H1) / (60% or higher in CSC111H1)")
+    >>> compute_prereq("(60% or higher in CSC148H1, 60% or higher in CSC165H1)/ (60% or higher in CSC111H1)")
     [({'CSC148H1': 60}, {'CSC165H1': 60}), {'CSC111H1': 60}]
-    >>> compute_prereq('(60% or higher in CSC148H1, 60% or higher in (CSC165H1/CSC240H1) / 60% or higher in CSC111H1')
+    >>> compute_prereq('(60% or higher in CSC148H1, 60% or higher in (CSC165H1/CSC240H1)/ 60% or higher in CSC111H1')
     [({'CSC148H1': 60}, [{'CSC240H1': 60}, {'CSC165H1': 60}]), {'CSC111H1': 60}]
-    >>> compute_prereq('CSC436H1 / 75% or higher in CSC336H1,CSC209H1')
+    >>> compute_prereq('CSC436H1/ 75% or higher in CSC336H1,CSC209H1')
     [{'CSC436H1': 50}, ({'CSC336H1': 75}, {'CSC209H1': 50})]
-
 
     preconditions:
     - prerequisite should be in the right format that contains only the exact courses and the minimum grade requirement
     of the courses(if any).
     """
+    if len(prereq_str) < 5:
+        return []
     prereqs = []
-    prereq_options = prereq_str.split(' / ')
+    prereq_options = prereq_str.split('/ ')
     for option in prereq_options:
         course_reqs = []
         for req in option.split(','):
@@ -221,6 +228,29 @@ def compute_prereq(prereq_str):
         if len(course_reqs) > 1:
             course_reqs = tuple(course_reqs)
         else:
-            course_reqs = course_reqs.pop()
+            while not isinstance(course_reqs, dict):
+                course_reqs = course_reqs.pop()
         prereqs.append(course_reqs)
     return prereqs
+
+
+
+def extract_columns(csv_file_path, new_csv_file_path):
+    # Open the CSV file
+    with open(csv_file_path, 'r', encoding='utf-8') as csv_file:
+        # Create a CSV reader object
+        csv_reader = csv.reader(csv_file)
+        # Create a list to store the extracted data
+        extracted_data = []
+        # Iterate over the rows in the CSV file
+        for row in csv_reader:
+            # Extract the first two columns
+            extracted_row = row[:2]
+            # Add the extracted row to the list
+            extracted_data.append(extracted_row)
+    # Write the extracted data to a new CSV file
+    with open(new_csv_file_path, 'w', newline='', encoding='utf-8') as new_csv_file:
+        # Create a CSV writer object
+        csv_writer = csv.writer(new_csv_file)
+        # Write the extracted data to the new CSV file
+        csv_writer.writerows(extracted_data)
