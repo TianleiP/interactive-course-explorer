@@ -20,11 +20,13 @@ class Course:
     # unhashable type: 'dict' Although this can be solved by converting dictionary into tuple, it requires more
     # computation for types conversion, and it also has a conflict with our original usage of tuple.
     higher_courses: set
+    key_words: str
 
-    def __init__(self, name: str):
+    def __init__(self, name: str, key_words: Optional = ''):
         self.name = name
         self.prereq = []
         self.higher_courses = set()
+        self.key_words = key_words
 
 
 class CourseGraph:
@@ -36,9 +38,9 @@ class CourseGraph:
     def __init__(self):
         self.courses = {}
 
-    def add_course(self, name: str) -> None:
+    def add_course(self, name: str, keywords: Optional = '') -> None:
         """add courses to the graph"""
-        self.courses[name] = Course(name)
+        self.courses[name] = Course(name, keywords)
 
     def add_edge(self, course1: str, prereq: list) -> None:
         """add edge between a course and all of its prerequisite"""
@@ -106,7 +108,6 @@ class CourseGraph:
                     lst.extend(new[1])
                     cost += new[0]
                 else:
-                    print(p)
                     lst.append([key for key in p][0])
                     new_value = self.compute_cost([key for key in p][0])
                     lst.extend(new_value[1])
@@ -140,11 +141,18 @@ class CourseGraph:
 
     def is_year_course(self, course: str) -> bool:
         """return whether a course is a year course or a half year course"""
-        print(course)
         if course[6] == 'Y':
             return True
         else:
             return False
+
+    def course_with_keywords(self, keywords: str) -> list:
+        lst = []
+        for course in self.courses:
+            if keywords in self.courses[course].key_words:
+                lst.append(course)
+        return lst
+
 
 
 def create_graph() -> CourseGraph:
@@ -163,8 +171,8 @@ def read_csv(filename: str) -> CourseGraph:
     with open(filename) as file:
         reader = csv.reader(file)
         for line in reader:
-            curr_graph.add_course(str(line[0])[1:9])
-            print(f'add course {str(line[0])[1:9]}')
+            curr_graph.add_course(str(line[0])[1:9], str(line[0])[12:].lower())
+            print(f'add course {str(line[0])[1:9]} with keywords {str(line[0])[12:]}')
             if line[1] is not None:
                 prereq = compute_prereq(str(line[1]))
                 print(str(line[1]))
@@ -178,11 +186,11 @@ def read_csv_with_graph(filename: str, curr_graph: CourseGraph) -> CourseGraph:
     with open(filename) as file:
         reader = csv.reader(file)
         for line in reader:
-            curr_graph.add_course(str(line[0])[1:9])
+            curr_graph.add_course(str(line[0])[1:9], str(line[0])[12:].lower())
             print(f'add course {str(line[0])[1:9]}')
             if line[1] is not None:
                 prereq = compute_prereq(str(line[1]))
-                print(f'get prerequisite {compute_prereq(str(line[1]))}')
+                print(f'get prerequisite {compute_prereq(str(line[1]))} with keywords {str(line[0])[12:]}')
             curr_graph.add_edge(str(line[0])[1:9], prereq)
     return curr_graph
 
@@ -253,3 +261,19 @@ def extract_columns(csv_file_path, new_csv_file_path):
     with open(new_csv_file_path, 'w', newline='', encoding='utf-8') as new_csv_file:
         csv_writer = csv.writer(new_csv_file)
         csv_writer.writerows(extracted_data)
+
+
+
+def interactive_graph(graph: CourseGraph):
+    keyword = input("please identify an area you are focusing on (choose a specific word)")
+    lst = graph.course_with_keywords(keyword)
+    if lst == []:
+        print('Sorry, your keyword is not in our database, please try another one')
+    else:
+        for item in lst:
+            courses = graph.compute_cost(item)[1]
+            cost = graph.compute_cost(item)[0]
+            print(f'{item} may be a course you are interested in, which is about {graph.courses[item].key_words}. '
+                  f'In order to take this course, you can take the following courses as prerequisite to minimize '
+                  f'cost: {courses}([] represent that you do not need any prerequisite for this course), which '
+                  f'include a total of {cost} credit, (including {item})')
