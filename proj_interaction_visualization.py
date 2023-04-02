@@ -158,7 +158,7 @@ def interactive_model() -> None:
           "prerequisite, as well as all potential pre-prerequisite, etc. of this course.\n"
           "3. you can input a few course codes you have already token, and I will help you find and visualize the \n"
           "relationship between some potential courses you could take in the future!\n")
-    num = input('choose the function you hope to use: (1,2 or 3).')
+    num = input('choose the function you hope to use: (1,2 or 3, , just type a single number).')
     if num == '1':
         interactive_graph()
         print('Thank you for using!')
