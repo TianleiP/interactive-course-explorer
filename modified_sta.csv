@@ -5,8 +5,8 @@
  STA201H1 - Why Numbers Matter,
  STA220H1 - The Practice of Statistics I,
  STA221H1 - The Practice of Statistics II,STA220H1/ STA288H1/ PSY201H1/ GGR270H1/ EEB225H1
-" STA237H1 - Probability, Statistics and Data Analysis I","(MAT135H1, MAT136H1)/ MAT137Y1/ MAT157Y1"
-" STA238H1 - Probability, Statistics and Data Analysis II",STA237H1/ STA247H1/ STA257H1
+" STA237H1 - Probability Statistics and Data Analysis I","(MAT135H1, MAT136H1)/ MAT137Y1/ MAT157Y1"
+" STA238H1 - Probability Statistics and Data Analysis II",STA237H1/ STA247H1/ STA257H1
  STA247H1 - Probability with Computer Applications,"(MAT135H1, MAT136H1)/ MAT137Y1/ MAT157Y1, CSC111H1/ CSC148H1"
  STA248H1 - Statistics for Computer Scientists,"STA237H1/ STA247H1/ STA257H1, CSC111H1/ CSC148H1"
  STA255H1 - Statistical Theory,"STA220H1/ STA221H1/ ECO220Y1, 70% or higher in MAT133Y1/ (MAT135H1, MAT136H1)/ MAT137Y1/ MAT157Y1"
@@ -18,7 +18,7 @@
  STA299Y1 - Research Opportunity Program,
  STA302H1 - Methods of Data Analysis I,"STA238H1/ STA248H1/ STA255H1/ STA261H1/ ECO227Y1, CSC108H1/ CSC110Y1/ CSC120H1/ CSC148H1, MAT223H1/ MAT224H1/ MAT240H1"
  STA303H1 - Methods of Data Analysis II,STA302H1
-" STA304H1 - Surveys, Sampling and Observational Data",ECO227Y1/ STA255H1/ STA261H1/ STA248H1/ STA238H1
+" STA304H1 - Surveys Sampling and Observational Data",ECO227Y1/ STA255H1/ STA261H1/ STA248H1/ STA238H1
  STA305H1 - Design and Analysis of Experiments,STA302H1
  STA313H1 - Data Visualization,"CSC108H1/ CSC110Y1/ CSC120H1/ CSC148H1, STA238H1/ STA248H1/ STA261H1/ ECO227Y1"
  STA314H1 - Statistical Methods for Machine Learning I,"STA302H1, CSC108H1/ CSC110Y1/ CSC120H1/ CSC148H1, MAT223H1/ MAT224H1/ MAT240H1, MAT235Y1/ MAT237Y1/ MAT257Y1"
@@ -44,4 +44,4 @@
  JSC470H1 - Data Science III,"JSC370H1, STA314H1/ CSC411H1/ CSC311H1, STA303H1/ STA305H1"
  STA475H1 - Survival Analysis,STA303H1
  STA480H1 - Fundamentals of Statistical Genetics,STA303H1
-" STA490Y1 - Statistical Consultation, Communication, and Collaboration","STA303H1, STA304H1/ STA305H1, STA355H1"
+" STA490Y1 - Statistical Consultation Communication and Collaboration","STA303H1, STA304H1/ STA305H1, STA355H1"
