@@ -1,6 +1,6 @@
-"""This file includes functions that visualize the CourseGraph as well as specific parts of the graph.
-It also include interactive functions that ask the user to input something and generate recommended courses
-and visualizations for the user."""
+"""This file includes function that visualize the CourseGraph as well as specific parts of the graph.
+It also includes interactive function that ask the user to input something and generate recommended courses
+and visualization for the user."""
 
 import networkx as nx
 import matplotlib.pyplot as plt
@@ -79,8 +79,12 @@ def interactive_graph(graph: CourseGraph) -> None:
             print(
                 f'you can probably organize it in this way, first year: {lst1}, '
                 f'second year: {lst2}, third year: {lst3},'
-                f'last year: {lst4}')
-            visualize_course_graph_node(graph, courses)
+                f'last year: {lst4}\n')
+            v = input('Do you want an visualization? (Yes/No):\n')
+            lower_v = v.lower()  # user can input lower case as well as upper case
+            if lower_v == 'yes':
+                print('close the window of visualization to continue\n')
+                visualize_course_graph_node(graph, courses)
 
 
 def interactive_show_course(graph: CourseGraph) -> None:
