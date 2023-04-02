@@ -8,6 +8,14 @@ from proj_main import Course, CourseGraph
 from proj_generate_graph import read_csv_with_graph, read_csv
 
 
+def generate_course_graph() -> CourseGraph:
+    """generate a complete course graph from our current modified csv file"""
+    g = read_csv('modified_cs.csv')
+    g1 = read_csv_with_graph('modified_math.csv', g)
+    g2 = read_csv_with_graph('modified_sta.csv', g1)
+    return g2
+
+
 def visualize_course_graph(course_graph: CourseGraph) -> None:
     """visualize the whole course graph"""
     g = nx.DiGraph()
@@ -43,66 +51,72 @@ def visualize_whole_coursegraph(graph: CourseGraph) -> None:
     visualize_course_graph(graph)
 
 
-def interactive_graph(graph: CourseGraph) -> None:
+def interactive_graph() -> None:
     """Ask the user to input a specific keyword, for example, algorithm, and print out
     some recommended courses for this user, as well as its potential prerequisite that minimize the
     opportunity cost(a year course have opportunity cost of 1 and half year course have 0.5) for taking
     this course. Visualize the relationship between the recommended courses and its potential prerequisite. """
 
+    graph = generate_course_graph()
     keyword = input("please identify an area you are focusing on (choose a specific word)")
     lower = keyword.lower()
     lst = graph.course_with_keywords(lower)
-    if not lst:
-        print('Sorry, your keyword is not in our database, please try another one')
-    else:
-        for item in lst:
-            courses = graph.compute_cost(item)[1]
-            cost = graph.compute_cost(item)[0]
-            print(f'{item} may be a course you are interested in, which is about {graph.courses[item].key_words}. '
-                  f'In order to take this course, \n you can take the following courses as prerequisite to minimize '
-                  f'cost: {courses}([] represent that \n you do not need any prerequisite for this course), which '
-                  f'include a total of {cost} credit, (including {item})\n')
-            courses.append(item)
-            lst1 = []
-            lst2 = []
-            lst3 = []
-            lst4 = []
-            for course in courses:
-                if course[3] == '1':
-                    lst1.append(course)
-                elif course[3] == '2':
-                    lst2.append(course)
-                elif course[3] == '3':
-                    lst3.append(course)
-                else:
-                    lst4.append(course)
-            print(
-                f'you can probably organize it in this way, first year: {lst1}, '
-                f'second year: {lst2}, third year: {lst3},'
-                f'last year: {lst4}\n')
-            v = input('Do you want an visualization? (Yes/No):\n')
-            lower_v = v.lower()  # user can input lower case as well as upper case
-            if lower_v == 'yes':
-                print('close the window of visualization to continue\n')
-                visualize_course_graph_node(graph, courses)
+    while not lst:
+        w = input('sorry, the keyword you enter is '
+                  'currently not in our dataset. Do you want to try another one? (Yes/No)')
+        whether_continue = w.lower()
+        if whether_continue != 'yes':
+            return
+        keyword = input("please identify an area you are focusing on (choose a specific word)")
+        lower = keyword.lower()
+        lst = graph.course_with_keywords(lower)
+    for item in lst:
+        courses = graph.compute_cost(item)[1]
+        cost = graph.compute_cost(item)[0]
+        print(f'{item} may be a course you are interested in, which is about {graph.courses[item].key_words}. '
+              f'In order to take this course, \n you can take the following courses as prerequisite to minimize '
+              f'cost: {courses}([] represent that \n you do not need any prerequisite for this course), which '
+              f'include a total of {cost} credit, (including {item})\n')
+        courses.append(item)
+        lst1 = []
+        lst2 = []
+        lst3 = []
+        lst4 = []
+        for course in courses:
+            if course[3] == '1':
+                lst1.append(course)
+            elif course[3] == '2':
+                lst2.append(course)
+            elif course[3] == '3':
+                lst3.append(course)
+            else:
+                lst4.append(course)
+        print(
+            f'you can probably organize it in this way, first year: {lst1}, '
+            f'second year: {lst2}, third year: {lst3},'
+            f'last year: {lst4}\n')
+        v = input('Do you want an visualization? (Yes/No):\n')
+        lower_v = v.lower()  # user can input lower case as well as upper case
+        if lower_v == 'yes':
+            print('close the window of visualization to continue\n')
+            visualize_course_graph_node(graph, courses)
 
 
-def interactive_show_course(graph: CourseGraph) -> None:
+def interactive_show_course() -> None:
     """Ask the user to input a specific coursecode, for example, MAT137Y1, and show all of the prerequisite
     the user can take in order to take this course. including the prerequisite of prerequisite, etc"""
 
-    course = input("please identify a course that you want to see all of its prerequisite(enter a course code):")
-    if course not in graph.courses:
-        print("sorry, the course code you enter is not within our dataset")
-        return
+    graph = generate_course_graph()
+    c = input("please identify a course that you want to see all of its prerequisite(enter a course code):")
+    course = c.upper()
+    while course not in graph.courses:
+        print("sorry, the course code you enter is not within our dataset\n")
+        w = input("Do you want to continue? (Yes/No)")
+        whether_continue = w.lower()
+        if whether_continue != 'yes':
+            return
+        c = input("please identify a course that you want to see all of its prerequisite(enter a course code):")
+        course = c.upper()
     pre = graph.find_all_prereq(course)
     pre.append(course)
     visualize_course_graph_node(graph, pre)
-
-
-def generate_course_graph() -> CourseGraph:
-    """generate a complete course graph from our current modified csv file"""
-    g = read_csv('modified_cs.csv')
-    g1 = read_csv_with_graph('modified_math.csv', g)
-    g2 = read_csv_with_graph('modified_sta.csv', g1)
-    return g2
