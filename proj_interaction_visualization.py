@@ -95,10 +95,10 @@ def interactive_graph() -> None:
             f'you can probably organize it in this way, first year: {lst1}, '
             f'second year: {lst2}, third year: {lst3},'
             f'last year: {lst4}\n')
-        v = input('Do you want an visualization? (Yes/No):\n')
+        v = input('Do you want an visualization? (Yes/No). If you choose to visualize, you need to close the '
+                  'visualize window in order to continue:\n')
         lower_v = v.lower()  # user can input lower case as well as upper case
         if lower_v == 'yes':
-            print('close the window of visualization to continue\n')
             visualize_course_graph_node(graph, courses)
 
 
@@ -120,3 +120,59 @@ def interactive_show_course() -> None:
     pre = graph.find_all_prereq(course)
     pre.append(course)
     visualize_course_graph_node(graph, pre)
+
+
+def interactive_show_future_course() -> None:
+    """Ask the user to input some course he/she already took, and return the potential possible course the user could
+    take in the future"""
+    graph = generate_course_graph()
+    lst = []
+    w = input("Please add a course code that you've already token(enter no to stop):")
+    course = w.upper()
+    while course != 'NO':
+        if course in graph.courses:
+            lst.append(course)
+        else:
+            print('sorry, the course code you enter is currently not in our dataset')
+        w = input("Please add a course code that you've already token(enter no to stop):")
+        course = w.upper()
+    lst2 = graph.find_higher_courses(lst)
+    print(f'Based on your input, here are the courses you have already token: {lst}, and here are some potential '
+          f'courses you could take in the future: {lst2}\n')
+    lst2.extend(lst)
+    v = input('Do you want to visualize their relationship? (yes/no)')
+    vis = v.lower()
+    if vis == 'yes':
+        visualize_course_graph_node(graph, lst2)
+    else:
+        print('Thanks for using!')
+
+def interactive_model() -> None:
+    """The final interactive model of the project, which combines the above interactive function"""
+    print("Hello! As an interactive graph model, there are a few ways I can help you.\n"
+          "1. You can input a keyword that you are interested in, and I will help you \n"
+          "look for the related courses within our dataset, as well as the courses you \n"
+          "need to take in order to take this specific course. We will try our best to \n"
+          "minimized the opportunity cost you need to give in order to take these courses.\n"
+          "2. you can input a specific course code, and I will help you visualize all potential\n"
+          "prerequisite, as well as all potential pre-prerequisite, etc. of this course.\n"
+          "3. you can input a few course codes you have already token, and I will help you find and visualize the \n"
+          "relationship between some potential courses you could take in the future!\n")
+    num = input('choose the function you hope to use: (1,2 or 3).')
+    if num == '1':
+        interactive_graph()
+        print('Thank you for using!')
+    elif num == '2':
+        interactive_show_course()
+        print('Thank you for using!')
+    elif num == '3':
+        interactive_show_future_course()
+        print('Thank you for using!')
+    else:
+        print('Sorry, I can not reconize the number you chose')
+        b = input('Do you want to try again?(Yes/No):')
+        w = b.lower()
+        if w == 'yes':
+            interactive_model()
+        else:
+            print('Thank you for using!')

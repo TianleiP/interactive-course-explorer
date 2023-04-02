@@ -1,5 +1,5 @@
 """main part of the project, including the class Course, which represents vertex in the graph, and CourseGraph,
-which represents the graph. Various methods included."""
+which represent the graph. Various methods included."""
 from typing import Any, Optional
 
 
@@ -41,7 +41,10 @@ class CourseGraph:
 
     def add_course(self, name: str, keywords: Optional = '') -> None:
         """add courses to the graph"""
-        self.courses[name] = Course(name, keywords)
+        if name in self.courses:
+            self.courses[name].key_words = keywords
+        else:
+            self.courses[name] = Course(name, keywords)
 
     def add_edge(self, course1: str, prereq: list) -> None:
         """add edge between a course and all of its prerequisite"""
@@ -192,3 +195,13 @@ class CourseGraph:
                 else:
                     lst1.extend(self.find_all_prereq_collection(item))
             return lst1
+
+    def find_higher_courses(self, courses: list) -> list:
+        """input a list of courses the user took, and return the possible courses he/she can take in the future"""
+        lst = []
+        for course in courses:
+            curr = self.courses[course]
+            if curr.higher_courses:
+                for higher in curr.higher_courses:
+                    lst.append(higher)
+        return lst

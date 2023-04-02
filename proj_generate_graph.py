@@ -1,5 +1,5 @@
 """
-This file includes the functions that do operations on csv files and returns graph based on the csv file.
+This file includes the functions that do operations on csv files and return graph based on the csv file.
 """
 import csv
 from proj_main import CourseGraph, Course
@@ -12,11 +12,11 @@ def read_csv(filename: str) -> CourseGraph:
         reader = csv.reader(file)
         for line in reader:
             curr_graph.add_course(str(line[0])[1:9], str(line[0])[12:].lower())
-            print(f'add course {str(line[0])[1:9]} with keywords {str(line[0])[12:]}')
+            # print(f'add course {str(line[0])[1:9]} with keywords {str(line[0])[12:]}')
             if line[1] is not None:
                 prereq = compute_prereq(str(line[1]))
-                print(str(line[1]))
-                print(f'get prerequisite {compute_prereq(str(line[1]))}')
+                # print(str(line[1]))
+                # print(f'get prerequisite {compute_prereq(str(line[1]))}')
             curr_graph.add_edge(str(line[0])[1:9], prereq)
     return curr_graph
 
@@ -27,10 +27,10 @@ def read_csv_with_graph(filename: str, curr_graph: CourseGraph) -> CourseGraph:
         reader = csv.reader(file)
         for line in reader:
             curr_graph.add_course(str(line[0])[1:9], str(line[0])[12:].lower())
-            print(f'add course {str(line[0])[1:9]}')
+            # print(f'add course {str(line[0])[1:9]}')
             if line[1] is not None:
                 prereq = compute_prereq(str(line[1]))
-                print(f'get prerequisite {compute_prereq(str(line[1]))} with keywords {str(line[0])[12:]}')
+                # print(f'get prerequisite {compute_prereq(str(line[1]))} with keywords {str(line[0])[12:]}')
             curr_graph.add_edge(str(line[0])[1:9], prereq)
     return curr_graph
 
