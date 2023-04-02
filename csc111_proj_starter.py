@@ -136,6 +136,7 @@ class CourseGraph:
                     cost += new[0]
                 else:
                     new = self.compute_cost([key for key in p][0])
+
                     lst.extend(new[1])
                     cost += new[0]
             return (cost, lst)
@@ -153,6 +154,35 @@ class CourseGraph:
             if keywords in self.courses[course].key_words:
                 lst.append(course)
         return lst
+
+    def find_all_prereq(self, course: str) -> list:
+        """return a list of the all prerequisite, (including the prerequisite of the prerequisite, if any )
+        from a specific course."""
+        lst = []
+        curr_course  = self.courses[course]
+        for pre in curr_course.prereq:
+            if isinstance(pre, dict):
+                for key in pre:
+                    lst.append(key)
+                    lst.extend(self.find_all_prereq(key))
+            else:
+                 lst.extend(self.find_all_prereq_collection(pre))
+        return lst
+
+    def find_all_prereq_collection(self, prerequisite) -> list:
+        if len(prerequisite)<1:
+            return []
+        else:
+            lst1 = []
+            for item in prerequisite:
+                if isinstance(item, dict):
+                    lst1.append([key for key in item][0])
+                    lst1.extend(self.find_all_prereq([key for key in item][0]))
+                else:
+                    lst1.extend(self.find_all_prereq_collection(item))
+            return lst1
+
+
 
 
 def create_graph() -> CourseGraph:
@@ -276,3 +306,17 @@ def interactive_graph(graph: CourseGraph):
                   f'include a total of {cost} credit, (including {item})\n')
             courses.append(item)
             visualize_course_graph_node(graph, courses)
+
+def interactive_show_course(graph: CourseGraph):
+    """show all of the prerequisite you can take in order to take this course. including the prerequisite of prerequisite, etc """
+    course = input("please identify a course that you want to see all of its prerequisite(enter a course code):")
+    if course not in graph.courses:
+        print("sorry, the course code you enter is not within our dataset")
+    pre = graph.find_all_prereq(course)
+    pre.append(course)
+    visualize_course_graph_node(graph, pre)
+
+
+def visualize_whole_coursegraph(graph: CourseGraph)->None:
+    """visualize the whole graph using networkx"""
+    visualize_course_graph(graph)
