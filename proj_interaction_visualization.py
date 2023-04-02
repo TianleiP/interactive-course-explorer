@@ -147,6 +147,7 @@ def interactive_show_future_course() -> None:
     else:
         print('Thanks for using!')
 
+
 def interactive_model() -> None:
     """The final interactive model of the project, which combines the above interactive function"""
     print("Hello! As an interactive graph model, there are a few ways I can help you.\n"
@@ -158,16 +159,13 @@ def interactive_model() -> None:
           "prerequisite, as well as all potential pre-prerequisite, etc. of this course.\n"
           "3. you can input a few course codes you have already token, and I will help you find and visualize the \n"
           "relationship between some potential courses you could take in the future!\n")
-    num = input('choose the function you hope to use: (1,2 or 3, , just type a single number).')
+    num = input('choose the function you hope to use: (1,2 or 3, just type a single number).')
     if num == '1':
         interactive_graph()
-        print('Thank you for using!')
     elif num == '2':
         interactive_show_course()
-        print('Thank you for using!')
     elif num == '3':
         interactive_show_future_course()
-        print('Thank you for using!')
     else:
         print('Sorry, I can not reconize the number you chose')
         b = input('Do you want to try again?(Yes/No):')
@@ -176,3 +174,9 @@ def interactive_model() -> None:
             interactive_model()
         else:
             print('Thank you for using!')
+    i = input('Thank you for using our interactive model! Do you want to use it again? (Yes/No):')
+    inp = i.lower()
+    if inp == 'yes':
+        interactive_model()
+    else:
+        print('Hope our model help you!')
