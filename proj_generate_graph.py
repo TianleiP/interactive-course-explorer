@@ -1,5 +1,5 @@
 """
-This file includes the functions that do operations on csv files and return graph based on the csv file.
+This file includes the functions that do operations on csv files and returns graph based on the csv file.
 """
 import csv
 from proj_main import CourseGraph, Course
