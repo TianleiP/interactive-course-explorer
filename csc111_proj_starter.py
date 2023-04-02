@@ -1,5 +1,6 @@
 import csv
 from typing import Any, Optional
+from visualize import visualize_course_graph_node, visualize_course_graph
 
 
 class Course:
@@ -154,7 +155,6 @@ class CourseGraph:
         return lst
 
 
-
 def create_graph() -> CourseGraph:
     """return a coursegraph for testing purpose"""
     g = CourseGraph()
@@ -195,8 +195,7 @@ def read_csv_with_graph(filename: str, curr_graph: CourseGraph) -> CourseGraph:
     return curr_graph
 
 
-
-def compute_prereq(prereq_str:str):
+def compute_prereq(prereq_str: str):
     """
     Compute the prerequisites of a course given a string representation.
 
@@ -250,7 +249,6 @@ def compute_prereq(prereq_str:str):
     return prereqs
 
 
-
 def extract_columns(csv_file_path, new_csv_file_path):
     with open(csv_file_path, 'r', encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -261,7 +259,6 @@ def extract_columns(csv_file_path, new_csv_file_path):
     with open(new_csv_file_path, 'w', newline='', encoding='utf-8') as new_csv_file:
         csv_writer = csv.writer(new_csv_file)
         csv_writer.writerows(extracted_data)
-
 
 
 def interactive_graph(graph: CourseGraph):
@@ -277,3 +274,5 @@ def interactive_graph(graph: CourseGraph):
                   f'In order to take this course, \n you can take the following courses as prerequisite to minimize '
                   f'cost: {courses}([] represent that \n you do not need any prerequisite for this course), which '
                   f'include a total of {cost} credit, (including {item})\n')
+            courses.append(item)
+            visualize_course_graph_node(graph, courses)
