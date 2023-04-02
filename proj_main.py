@@ -1,5 +1,5 @@
 """main part of the project, including the class Course, which represents vertex in the graph, and CourseGraph,
-which represent the graph. Various methods included."""
+which represents the graph. Various methods included."""
 from typing import Any, Optional
 
 
