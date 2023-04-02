@@ -1,0 +1,72 @@
+ CSC104H1 - Computational Thinking,
+ CSC108H1 - Introduction to Computer Programming,
+ CSC110Y1 - Foundations of Computer Science I,
+ CSC111H1 - Foundations of Computer Science II, 70% or higher in CSC110Y1
+ CSC120H1 - Computer Science for the Sciences,
+ CSC148H1 - Introduction to Computer Science,CSC108H1
+ CSC165H1 - Mathematical Expression and Reasoning for Computer Science,
+ CSC196H1 - Great Ideas in Computing,
+" CSC197H1 - What, Who, How: Privacy in the Age of Big Data Collection",
+" CSC199H1 - Intelligence, Artificial and Human",
+ CSC207H1 - Software Design,60% or higher in CSC148H1/ 60% or higher in CSC111H1
+ CSC209H1 - Software Tools and Systems Programming,CSC207H1
+ CSC236H1 - Introduction to the Theory of Computation,"(60% or higher in CSC148H1, 60% or higher in CSC165H1)/ (60% or higher in CSC111H1)"
+ CSC240H1 - Enriched Introduction to the Theory of Computation,
+ JCC250H1 - Computing for Science ,"CHM135H1/ CHM136H1/ CHM151Y1"
+ CSC258H1 - Computer Organization,"(60% or higher in CSC148H1, 60% or higher in (CSC165H1/CSC240H1)/ 60% or higher in CSC111H1"
+ CSC263H1 - Data Structures and Analysis,"CSC236H1/ CSC240H1, STA237H1/ STA247H1/ STA255H1/ STA257H1"
+ CSC265H1 - Enriched Data Structures and Analysis,CSC240H1/ 80% or higher in CSC236H1
+ JSC270H1 - Data Science I,"STA257H1, CSC207H1"
+ CSC299H1 - Research Opportunity Program,
+ CSC299Y1 - Research Opportunity Program,
+ CSC300H1 - Computers and Society,
+ CSC301H1 - Introduction to Software Engineering,"CSC209H1, CSC263H1/ CSC265H1"
+ CSC302H1 - Engineering Large Software Systems,CSC301H1
+ CSC303H1 - Social and Information Networks,"CSC263H1/ CSC265H1, STA247H1/ STA255H1/ STA257H1/ ECO227Y1/ STA237H1, MAT223H1/ MAT240H1"
+ CSC304H1 - Algorithmic Game Theory and Mechanism Design,"STA247H1/ STA255H1/ STA257H1/ STA237H1/ PSY201H1/ ECO227Y1, (MAT135H1, MAT136H1)/ MAT137Y1/ MAT157Y1"
+ CSC309H1 - Programming on the Web,CSC209H1
+ CSC311H1 - Introduction to Machine Learning,"CSC207H1, MAT235Y1/ MAT237Y1/ MAT257Y1/ (77% or higher in MAT135H1/MAT136H1)/ (73% or higher in MAT137Y1)/ (67% or higher in MAT157Y1)/ MAT223H1/ MAT240H1/ STA237H1/ STA247H1/ STA255H1/ STA257H1"
+ CSC317H1 - Computer Graphics,"MAT235Y1/ MAT237Y1/ MAT257Y1, MAT223H1/ MAT240H1, CSC209H1"
+ CSC318H1 - The Design of Interactive Computational Media,
+ CSC320H1 - Introduction to Visual Computing,"CSC209H1/ CSC207H1, MAT223H1/ MAT240H1/ (77% or higher in MAT136H1)/ 73% or higher in MAT137Y1/ (67% or higher in MAT157Y1)/ MAT235Y1/ MAT237Y1/ MAT257Y1"
+ CSC324H1 - Principles of Programming Languages,CSC263H1/ CSC265H1
+ CSC336H1 - Numerical Methods,"CSC148H1/ CSC111H1, 70% or higher in MAT133Y1/ (MAT135H1, MAT136H1)/ MAT135Y1/ MAT137Y1/ MAT157Y1, MAT223H1/ MAT240H1"
+ CSC343H1 - Introduction to Databases,"CSC111H1/ CSC165H1/ CSC240H1/ (MAT135H1, MAT136H1)/ MAT135Y1/ MAT137Y1/ MAT157Y1/ CSC207H1"
+ CSC367H1 - Parallel Programming,"CSC258H1, CSC209H1"
+ CSC369H1 - Operating Systems,"CSC209H1, CSC258H1"
+ JSC370H1 - Data Science II,"JSC270H1, STA261H1, MAT237Y1/ MAT257Y1, CSC263H1/ CSC265H1, STA302H1, CSC343H1"
+" CSC373H1 - Algorithm Design, Analysis &amp; Complexity",CSC263H1/ CSC265H1
+ CSC384H1 - Introduction to Artificial Intelligence,"(CSC263H1/ CSC265H1/ CSC148H1, STA220H1/ STA237H1/ STA247H1/ STA255H1/ STA257H1/ STA237H1/ PSY201H1)"
+ CSC385H1 - Microprocessor Systems,"CSC258H1, CSC209H1"
+ CSC396Y0 - Designing Systems for Real World Problems,
+ CSC398H0 - Research Excursions,
+ CSC398Y0 - Research Excursions,
+ CSC399H1 - Research Opportunity Program,
+ CSC399Y1 - Research Opportunity Program,
+ CSC401H1 - Natural Language Computing,"CSC207H1/ CSC209H1, STA237H1/ STA247H1/ STA255H1/ STA257H1"
+ CSC404H1 - Introduction to Video Game Design,CSC301H1/ CSC317H1/ CSC318H1/ CSC384H1/ CSC417H1/ CSC418H1/ CSC419H1
+ CSC410H1 - Software Testing and Verification,"CSC207H1, CSC236H1/ CSC240H1"
+ CSC412H1 - Probabilistic Learning and Reasoning,CSC311H1/ CSC411H1/ STA314H1
+ CSC413H1 - Neural Networks and Deep Learning,"CSC311H1/ CSC411H1/ STA314H1, MAT235Y1/ MAT237Y1/ MAT257Y1, MAT223H1/ MAT240H1"
+ CSC417H1 - Physics-Based Animation,"MAT235Y1/ MAT237Y1/ MAT257Y1, MAT223H1/ MAT240H1, CSC209H1"
+ CSC419H1 - Geometry Processing,"MAT235Y1/ MAT237Y1/ MAT257Y1 , MAT223H1/ MAT240H1, CSC209H1"
+ CSC420H1 - Introduction to Image Understanding,"CSC263H1/ CSC265H1, (MAT135H1, MAT136H1)/ MAT137Y1/ MAT157Y1/ MAT223H1/ MAT240H1"
+ CSC428H1 - Human-Computer Interaction,"CSC318H1, STA237H1/ STA247H1/ STA255H1/ STA257H1/ CSC209H1"
+ CSC436H1 - Numerical Algorithms,CSC336H1
+ CSC438H1 - Computability and Logic,(CSC363H1/ CSC463H1)/ CSC365H1/ CSC373H1/ CSC375H1/ MAT247H1
+ CSC443H1 - Database System Technology,"CSC343H1, CSC369H1, CSC373H1/ CSC375H1"
+ CSC446H1 - Computational Methods for Partial Differential Equations,"CSC351H1/ 75% or higher in CSC336H1/ MAT237Y1/ MAT257Y1, APM346H1/ MAT351Y1/ (MAT244H1/ MAT267H1)"
+ CSC448H1 - Formal Languages and Automata,"CSC236H1/ CSC240H1, CSC263H1/ CSC265H1"
+ CSC454H1 - The Business of Software,
+ CSC456H1 - High-Performance Scientific Computing,CSC436H1/ 75% or higher in CSC209H1
+ CSC457H1 - Principles of Computer Networks,"CSC373H1, STA247H1/ STA255H1/ STA257H1/ STA237H1"
+ CSC458H1 - Computer Networking Systems,"CSC209H1, CSC258H1, CSC263H1/ CSC265H1, STA247H1/ STA255H1/ STA257H1/ STA237H1/ ECO227Y1"
+ CSC463H1 - Computational Complexity and Computability,CSC236H1/ CSC240H1
+ CSC465H1 - Formal Methods in Software Design,CSC236H1/ CSC240H1/ MAT309H1
+ CSC466H1 - Numerical Methods for Optimization Problems,"CSC336H1, MAT223H1/ MAT240H1, MAT235Y1/ MAT237Y1/ MAT257Y1"
+ CSC469H1 - Operating Systems Design and Implementation,CSC369H1
+ JSC470H1 - Data Science III,"JSC370H1, STA314H1/ CSC411H1/ CSC311H1, STA303H1/ STA305H1"
+ CSC473H1 - Advanced Algorithm Design,"CSC373H1, MAT223H1/ MAT240H1"
+ CSC485H1 - Computational Linguistics,"CSC209H1/ CSC180H1, STA237H1/ STA247H1/ STA255H1/ STA257H1"
+ CSC486H1 - Knowledge Representation and Reasoning,CSC384H1
+ CSC488H1 - Compilers and Interpreters,"CSC258H1, CSC324H1, CSC263H1/ CSC265H1"
