@@ -1,6 +1,6 @@
-"""This file includes function that visualize the CourseGraph as well as specific parts of the graph.
-It also include interactive function that ask the user to input something and generate recommended courses
-and visualization for the user."""
+"""This file includes functions that visualize the CourseGraph as well as specific parts of the graph.
+It also include interactive functions that ask the user to input something and generate recommended courses
+and visualizations for the user."""
 
 import networkx as nx
 import matplotlib.pyplot as plt
