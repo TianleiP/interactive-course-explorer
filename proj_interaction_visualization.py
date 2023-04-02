@@ -5,6 +5,7 @@ and visualization for the user."""
 import networkx as nx
 import matplotlib.pyplot as plt
 from proj_main import Course, CourseGraph
+from proj_generate_graph import read_csv_with_graph, read_csv
 
 
 def visualize_course_graph(course_graph: CourseGraph) -> None:
