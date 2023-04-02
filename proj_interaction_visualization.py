@@ -46,8 +46,9 @@ def visualize_course_graph_node(course_graph: CourseGraph, nodes: list) -> None:
     plt.show()
 
 
-def visualize_whole_coursegraph(graph: CourseGraph) -> None:
+def visualize_whole_coursegraph() -> None:
     """visualize the whole graph using networkx"""
+    graph = generate_course_graph()
     visualize_course_graph(graph)
 
 
