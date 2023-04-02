@@ -94,6 +94,15 @@ def interactive_show_course(graph: CourseGraph) -> None:
     course = input("please identify a course that you want to see all of its prerequisite(enter a course code):")
     if course not in graph.courses:
         print("sorry, the course code you enter is not within our dataset")
+        return
     pre = graph.find_all_prereq(course)
     pre.append(course)
     visualize_course_graph_node(graph, pre)
+
+
+def generate_course_graph() -> CourseGraph:
+    """generate a complete course graph from our current modified csv file"""
+    g = read_csv('modified_cs.csv')
+    g1 = read_csv_with_graph('modified_math.csv', g)
+    g2 = read_csv_with_graph('modified_sta.csv', g1)
+    return g2
