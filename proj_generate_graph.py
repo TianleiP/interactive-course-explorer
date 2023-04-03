@@ -35,7 +35,7 @@ def read_csv_with_graph(filename: str, curr_graph: CourseGraph) -> CourseGraph:
     return curr_graph
 
 
-def compute_prereq(prereq_str: str):
+def compute_prereq(prereq_str: str) -> list:
     """
     Compute the prerequisites of a course given a string representation.
 
@@ -89,7 +89,7 @@ def compute_prereq(prereq_str: str):
     return prereqs
 
 
-def extract_columns(csv_file_path, new_csv_file_path) -> None:
+def extract_columns(csv_file_path: str, new_csv_file_path: str) -> None:
     """extract the first 2 columns of the csv file"""
     with open(csv_file_path, 'r', encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file)
@@ -100,3 +100,22 @@ def extract_columns(csv_file_path, new_csv_file_path) -> None:
     with open(new_csv_file_path, 'w', newline='', encoding='utf-8') as new_csv_file:
         csv_writer = csv.writer(new_csv_file)
         csv_writer.writerows(extracted_data)
+
+
+if __name__ == '__main__':
+    import doctest
+
+    doctest.testmod(verbose=True)
+
+    # When you are ready to check your work with python_ta, uncomment the following lines.
+    # (In PyCharm, select the lines below and press Ctrl/Cmd + / to toggle comments.)
+    # You can use "Run file in Python Console" to run PythonTA,
+    # and then also test your methods manually in the console.
+    import python_ta
+
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'extra-imports': ['csv', 'proj_objects'],
+        'allowed-io': ['read_csv_with_graph', 'read_csv', 'extract_columns'],
+        'disable': ['E9969', 'R1702', 'R1701', 'R0912']
+    })

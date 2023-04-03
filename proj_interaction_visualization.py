@@ -109,8 +109,8 @@ def interactive_graph() -> None:
             label_course.pack()
 
             label_visual = Label(graph_frame,
-                                 text=f'Do you want an visualization? \n If you choose to visualize,'
-                                      f' you need to close the visualize window in order to continue:\n')
+                                 text='Do you want an visualization? \n If you choose to visualize,'
+                                      ' you need to close the visualize window in order to continue:\n')
             label_visual.pack()
 
             button_yes = ttk.Button(graph_frame, text="Yes", command=yes)
@@ -211,7 +211,7 @@ def interactive_show_future_course() -> None:
             label_courses.pack()
             lst2.extend(lst)
             label_visual = Label(protential_frame,
-                                 text=f'Do you want to visualize their relationship?')
+                                 text='Do you want to visualize their relationship?')
             label_visual.pack()
 
             button_yes = ttk.Button(protential_frame, text="Yes", command=yes)
@@ -274,3 +274,23 @@ def interactive_model() -> None:
     button_future.pack()
 
     root.mainloop()
+
+
+if __name__ == '__main__':
+    import doctest
+
+    doctest.testmod(verbose=True)
+
+    # When you are ready to check your work with python_ta, uncomment the following lines.
+    # (In PyCharm, select the lines below and press Ctrl/Cmd + / to toggle comments.)
+    # You can use "Run file in Python Console" to run PythonTA,
+    # and then also test your methods manually in the console.
+    import python_ta
+
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'extra-imports': ['csv', 'proj_objects', 'random', 'matplotlib', 'networkx', 'proj_generate_graph', 'tkinter',
+                          'matplotlib.pyplot'],
+        'allowed-io': ['read_csv_with_graph', 'read_csv', 'extract_columns'],
+        'disable': ['E9969', 'R1702', 'R1701', 'R0912', 'W0401', 'R0914', 'R0915', 'C0411']
+    })

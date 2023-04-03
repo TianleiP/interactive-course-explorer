@@ -1,6 +1,6 @@
 """main part of the project, including the class Course, which represents vertex in the graph, and CourseGraph,
 which represent the graph. Various methods included."""
-from typing import Any, Optional
+from typing import Optional
 
 
 class Course:
@@ -23,7 +23,7 @@ class Course:
     higher_courses: set
     key_words: str
 
-    def __init__(self, name: str, key_words: Optional = ''):
+    def __init__(self, name: str, key_words: Optional = '') -> None:
         self.name = name
         self.prereq = []
         self.higher_courses = set()
@@ -36,7 +36,7 @@ class CourseGraph:
     """
     courses: dict[str, Course]
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.courses = {}
 
     def add_course(self, name: str, keywords: Optional = '') -> None:
@@ -205,3 +205,22 @@ class CourseGraph:
                 for higher in curr.higher_courses:
                     lst.append(higher)
         return lst
+
+
+if __name__ == '__main__':
+    import doctest
+
+    doctest.testmod(verbose=True)
+
+    # When you are ready to check your work with python_ta, uncomment the following lines.
+    # (In PyCharm, select the lines below and press Ctrl/Cmd + / to toggle comments.)
+    # You can use "Run file in Python Console" to run PythonTA,
+    # and then also test your methods manually in the console.
+    import python_ta
+
+    python_ta.check_all(config={
+        'max-line-length': 120,
+        'extra-imports': ['csv', 'proj_objects'],
+        'allowed-io': ['read_csv_with_graph', 'read_csv', 'extract_columns'],
+        'disable': ['E9969', 'R1702', 'R1701', 'R0912', 'R1721']
+    })

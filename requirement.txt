@@ -1,2 +1,3 @@
 # visualization
 networkx
+matplotlib
