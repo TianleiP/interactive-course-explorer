@@ -5,15 +5,13 @@ and visualization for the user."""
 import networkx as nx
 import matplotlib.pyplot as plt
 from proj_main import Course, CourseGraph
-from proj_generate_graph import read_csv_with_graph, read_csv
+from proj_generate_graph import read_csv
 
 
 def generate_course_graph() -> CourseGraph:
     """generate a complete course graph from our current modified csv file"""
-    g = read_csv('modified_cs.csv')
-    g1 = read_csv_with_graph('modified_math.csv', g)
-    g2 = read_csv_with_graph('modified_sta.csv', g1)
-    return g2
+    g = read_csv('combined_math_cs_sta.csv')
+    return g
 
 
 def visualize_course_graph(course_graph: CourseGraph) -> None:
