@@ -1,9 +1,9 @@
 """
-scrap the course data from uoft website
+Scrap the course data from uoft website
+You should NOT try to run this program since it just used to generate database
 """
 from typing import Any
 
-import bs4
 import re
 from bs4 import BeautifulSoup
 import urllib.request

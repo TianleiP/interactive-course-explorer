@@ -2,7 +2,7 @@
 This file includes the functions that do operations on csv files and return graph based on the csv file.
 """
 import csv
-from proj_main import CourseGraph, Course
+from proj_objects import CourseGraph
 
 
 def read_csv(filename: str) -> CourseGraph:
