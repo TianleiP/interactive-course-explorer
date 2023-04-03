@@ -6,7 +6,7 @@ import random
 import networkx as nx
 import matplotlib.pyplot as plt
 from proj_objects import CourseGraph
-from proj_generate_graph import read_csv_with_graph, read_csv
+from proj_generate_graph import read_csv
 from tkinter import *
 from tkinter import messagebox, ttk
 

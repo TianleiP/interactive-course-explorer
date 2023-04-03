@@ -1,4 +1,5 @@
-"""call the visualization function"""
+"""main function to visualize"""
+
 import proj_interaction_visualization as visual
 
 if __name__ == '__main__':
